@@ -1,0 +1,314 @@
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(const STMSquadApp());
+}
+
+class STMSquadApp extends StatelessWidget {
+  const STMSquadApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'STMSquad',
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        primarySwatch: Colors.green,
+        scaffoldBackgroundColor: const Color(0xFFF5F9F6),
+      ),
+      home: const HomeScreen(),
+    );
+  }
+}
+
+// ==================== Home Screen ====================
+class HomeScreen extends StatelessWidget {
+  const HomeScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        title: Row(
+          children: [
+            // App Name / Logo Text
+            const Text(
+              "STMSquad",
+              style: TextStyle(
+                color: Colors.green,
+                fontWeight: FontWeight.bold,
+                fontSize: 22,
+              ),
+            ),
+          ],
+        ),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.shopping_bag_outlined, color: Colors.black),
+            onPressed: () {},
+          ),
+        ],
+      ),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Current Location info
+            const Text("Current location", style: TextStyle(color: Colors.grey, fontSize: 12)),
+            const Row(
+              children: [
+                Text("Orathanadu, Thanjavur", style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 16)),
+                Icon(Icons.arrow_drop_down, color: Colors.green),
+              ],
+            ),
+            const SizedBox(height: 15),
+
+            // Search Bar
+            TextField(
+              decoration: InputDecoration(
+                hintText: 'Search Groceries, Food...',
+                prefixIcon: const Icon(Icons.search, color: Colors.grey),
+                suffixIcon: const Icon(Icons.mic, color: Colors.green),
+                filled: true,
+                fillColor: Colors.white,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(30),
+                  borderSide: BorderSide.none,
+                ),
+              ),
+            ),
+            const SizedBox(height: 20),
+
+            // Banner Container
+            Container(
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: const Color(0xFF1C6758),
+                borderRadius: BorderRadius.circular(16),
+              ),
+              child: Row(
+                children: [
+                  const Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Welcome to STMSquad!\nGet 40% discount on\nyour first order.",
+                          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 15),
+                        ),
+                        SizedBox(height: 10),
+                        Chip(
+                          label: Text("Shop Now", style: TextStyle(color: Color(0xFF1C6758), fontWeight: FontWeight.bold)),
+                          backgroundColor: Colors.white,
+                        )
+                      ],
+                    ),
+                  ),
+                  Container(
+                    width: 90,
+                    height: 90,
+                    decoration: BoxDecoration(
+                      color: Colors.green[200],
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: const Icon(Icons.local_shipping, size: 45, color: Colors.white),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 20),
+
+            // Categories Section
+            const Text("Categories", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+            const SizedBox(height: 10),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                _buildCategoryItem("Veggies", Icons.eco, Colors.orange[100]!),
+                _buildCategoryItem("Fruits", Icons.apple, Colors.red[100]!),
+                _buildCategoryItem("Meat", Icons.set_meal, Colors.blue[100]!),
+                _buildCategoryItem("Dairy", Icons.water_drop, Colors.green[100]!),
+              ],
+            ),
+            const SizedBox(height: 20),
+
+            // Best Sellers Section
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text("Best Sellers", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                TextButton(onPressed: () {}, child: const Text("See more", style: TextStyle(color: Colors.green))),
+              ],
+            ),
+            const SizedBox(height: 10),
+            
+            // Product Grid
+            GridView.builder(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                crossAxisSpacing: 12,
+                mainAxisSpacing: 12,
+                childAspectRatio: 0.75,
+              ),
+              itemCount: 2,
+              itemBuilder: (context, index) {
+                return GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const ProductDetailScreen()),
+                    );
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Expanded(
+                          child: Container(
+                            alignment: Alignment.center,
+                            child: const Icon(Icons.fastfood, size: 60, color: Colors.orange),
+                          ),
+                        ),
+                        const Text("Fresh Orange", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+                        const Text("1 kg", style: TextStyle(color: Colors.grey, fontSize: 12)),
+                        const SizedBox(height: 5),
+                        const Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text("₹250", style: TextStyle(color: Colors.green, fontWeight: FontWeight.bold, fontSize: 16)),
+                            CircleAvatar(
+                              radius: 14,
+                              backgroundColor: Colors.green,
+                              child: Icon(Icons.add, size: 18, color: Colors.white),
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
+                  ),
+                );
+              },
+            ),
+          ],
+        ),
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        items: const [
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+          BottomNavigationBarItem(icon: Icon(Icons.grid_view), label: 'Category'),
+          BottomNavigationBarItem(icon: Icon(Icons.shopping_cart), label: 'Cart'),
+          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
+        ],
+        selectedItemColor: Colors.green,
+        unselectedItemColor: Colors.grey,
+        type: BottomNavigationBarType.fixed,
+      ),
+    );
+  }
+
+  Widget _buildCategoryItem(String title, IconData icon, Color bgColor) {
+    return Column(
+      children: [
+        Container(
+          padding: const EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            color: bgColor,
+            shape: BoxShape.circle,
+          ),
+          child: Icon(icon, color: Colors.black87),
+        ),
+        const SizedBox(height: 6),
+        Text(title, style: const TextStyle(fontWeight: FontWeight.w500, fontSize: 12)),
+      ],
+    );
+  }
+}
+
+// ==================== Product Detail Screen ====================
+class ProductDetailScreen extends StatelessWidget {
+  const ProductDetailScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, color: Colors.black),
+          onPressed: () => Navigator.pop(context),
+        ),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.favorite_border, color: Colors.black),
+            onPressed: () {},
+          ),
+          IconButton(
+            icon: const Icon(Icons.share_outlined, color: Colors.black),
+            onPressed: () {},
+          ),
+        ],
+      ),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Center(
+              child: Container(
+                height: 200,
+                alignment: Alignment.center,
+                child: const Icon(Icons.food_bank, size: 120, color: Colors.orange),
+              ),
+            ),
+            const SizedBox(height: 20),
+            const Text("Fresh Orange", style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+            const Row(
+              children: [
+                Icon(Icons.star, color: Colors.amber, size: 18),
+                Icon(Icons.star, color: Colors.amber, size: 18),
+                Icon(Icons.star, color: Colors.amber, size: 18),
+                Icon(Icons.star, color: Colors.amber, size: 18),
+                Icon(Icons.star_border, color: Colors.amber, size: 18),
+                SizedBox(width: 8),
+                Text("4.8 (120 reviews)", style: TextStyle(color: Colors.grey)),
+              ],
+            ),
+            const SizedBox(height: 10),
+            const Text("₹250 / KG", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.green)),
+            const SizedBox(height: 20),
+            const Text("Product Details", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+            const SizedBox(height: 5),
+            const Text(
+              "Orange is a vibrant and juicy citrus fruit, known for its refreshing flavor and bright color. With a tangy savory sweetness, it adds a burst of freshness.",
+              style: TextStyle(color: Colors.grey, height: 1.5),
+            ),
+            const SizedBox(height: 30),
+            SizedBox(
+              width: double.infinity,
+              height: 50,
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.green,
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
+                ),
+                onPressed: () {},
+                child: const Text("Add to Cart", style: TextStyle(fontSize: 18, color: Colors.white, fontWeight: FontWeight.bold)),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
